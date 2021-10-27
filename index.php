@@ -23,6 +23,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 $emailErr = $streetErr = $cityErr = $streetNumberErr = $zipcodeErr = $successMsg = $orderErr = "";
 $deliveryTime = "2 hours";
+$email = $headers = "";
 
 function whatIsHappening() {
     echo '<h2>$_GET</h2>';
@@ -52,15 +53,15 @@ if (isset($_GET["food"])) {
             ['name' => 'Club Salmon', 'price' => 5]
         ];
     }
-    } else {
-        $products = [
-            ['name' => 'Club Ham', 'price' => 3.20],
-            ['name' => 'Club Cheese', 'price' => 3],
-            ['name' => 'Club Cheese & Ham', 'price' => 4],
-            ['name' => 'Club Chicken', 'price' => 4],
-            ['name' => 'Club Salmon', 'price' => 5]
-        ];
-    }
+} else {
+    $products = [
+        ['name' => 'Club Ham', 'price' => 3.20],
+        ['name' => 'Club Cheese', 'price' => 3],
+        ['name' => 'Club Cheese & Ham', 'price' => 4],
+        ['name' => 'Club Chicken', 'price' => 4],
+        ['name' => 'Club Salmon', 'price' => 5]
+    ];
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = 0;
@@ -118,7 +119,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_COOKIE["totalValue"] = strval($totalValue);
     }
 }
+//mail order to
+$to = "$email";
+$subject = "Order";
+$txt = "your order";
+$headers = "From:Personal Ham processors <info@example.com>" . "\r\n" .
 
-whatIsHappening();
 
-require 'form-view.php';
+mail($to,$subject,$txt,$headers);
+//whatIsHappening();
+
+require 'from-view.php';
