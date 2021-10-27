@@ -23,7 +23,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 $emailErr = $streetErr = $cityErr = $streetNumberErr = $zipcodeErr = $successMsg = $orderErr = "";
 $deliveryTime = "2 hours";
-$email = $headers = "";
+$email = $street = $headers = $zipcode = $company = $totalValue = $address = $price = "";
 
 function whatIsHappening() {
     echo '<h2>$_GET</h2>';
@@ -120,13 +120,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 //mail order to
-$to = "$email";
-$subject = "Order";
-$txt = "your order";
-$headers = "From:Personal Ham processors <info@example.com>" . "\r\n" .
+$address = $_SESSION["street"] . " " . $_SESSION["street-number"] . " - " . $_SESSION["city"] . " " . $_SESSION["zipcode"];
+function sendMail($email,$products, $address, $price) {
+    $customer = "$email";
+    $company = "emailaddresscompany@gmail.com";
+    $messageCustomer = "you ordered a $products \n
+                        you will pay $price \n
+                        your order will be send to $address ";
+    $messageCompany = "make a $products \n
+                       send to $address";
+    $headers = "";
 
 
-mail($to,$subject,$txt,$headers);
+
+        sendMail($customer,$messageCustomer,$headers);
+        sendMail($company,$messageCompany,$headers);
+}
+
+
+
 //whatIsHappening();
-
+//sendMail();
 require 'from-view.php';
